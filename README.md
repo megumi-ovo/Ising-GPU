@@ -14,6 +14,8 @@ void test_temperature(const int N, const int ITER);
 ```
 Compute 4 physical quantities: M (magnetization), X (susceptibility), E (energy), C (specific heat) for a lattice of size N.
 
+These functions are defined in `test.cu` and called `main.cu`. You can modify parameters in `main.cu` and choose an arbitrary function to call.
+
 ## Run this program
 In your command line, write
 ```
