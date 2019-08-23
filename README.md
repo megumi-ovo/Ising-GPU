@@ -17,7 +17,7 @@ Compute 4 physical quantities: M (magnetization), X (susceptibility), E (energy)
 These functions are defined in `test.cu` and called `main.cu`. You can modify parameters in `main.cu` and choose an arbitrary function to call.
 
 ## Run this program
-In your command line, write
+In your command line, input
 ```
 nvcc -std=c++11 -lcurand -o a main.cu test.cu lattice.cu Metroplis.cu
 ./a
