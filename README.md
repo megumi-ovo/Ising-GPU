@@ -1,6 +1,7 @@
 # Ising-GPU
-In this project, we investigate the GPU accelerated Monte Carlo simulations of the 2D Ising model. Parallel single-site flips will be applied to a large lattice up to an 1024*1024 lattice.
+In this project, we investigate the GPU accelerated Monte Carlo simulations of the 2D Ising model. Parallel single-site flips will be applied to a lattice of a large size up to 1024*1024.
 
+## Two functions to test the Ising model
 Two functions, `show_lattice` and `test_temperature`, are designed to test the Ising model:
 
 ```
