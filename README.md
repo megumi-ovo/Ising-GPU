@@ -23,7 +23,7 @@ These functions are defined in `test.cu` and called `main.cu`. You can modify pa
 - CUDA Toolkit: 10.1
 
 ## Run this program (require a CUDA-enabled GPU)
-In your command line, input
+In your command line, write
 ```
 nvcc -std=c++11 -lcurand -o a main.cu test.cu lattice.cu Metroplis.cu
 ./a
