@@ -8,14 +8,15 @@ __global__ void _Metropolis(int *a, const double beta, const int res, const doub
     const int N = blockDim.x;
     int i = blockIdx.x;
     int j = threadIdx.x;
-    if(((i+j)&1)==res)
+    if(((i+j)&1)==res) // flip spins of 'res'
     {
         // indexes around spin (i,j)
-        int i_ = _res(i+1,N), _i = _res(i-1,N);
+        int i_ = _res(i+1,N)*N, _i = _res(i-1,N)*N;
+        i *= N;
         int j_ = _res(j+1,N), _j = _res(j-1,N);
-        int I = i*N+j;
+        int I = i+j;
         // calculate energy difference
-        int spin_sum = a[i_*N+j]+a[_i*N+j]+a[i*N+j_]+a[i*N+_j];
+        int spin_sum = a[i_+j]+a[_i+j]+a[i+j_]+a[i+_j];
         double h_diff = 2*beta*a[I]*spin_sum;
         // attempt to flip the spin
         if(h_diff<0||exp(-h_diff)>real_dist[I]) a[I] *= -1;
