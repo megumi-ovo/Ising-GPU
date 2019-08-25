@@ -17,10 +17,10 @@ computes 4 physical quantities: M (magnetization), X (susceptibility), E (energy
 These functions are defined in `test.cu` and called `main.cu`. You can modify parameters in `main.cu` and choose one function of them to call.
 
 ## Test environment
-System: Ubuntu 16.04
-CPU: Intel(R) Xeon(R) CPU @ 2.20GHz (x4)
-GPU:  Nvidia Tesla K80 (x1)
-CUDA Toolkit: 10.1
+- System: Ubuntu 16.04
+- CPU: Intel(R) Xeon(R) CPU @ 2.20GHz (x4)
+- GPU:  Nvidia Tesla K80 (x1)
+- CUDA Toolkit: 10.1
 
 ## Run this program (require a CUDA-enabled GPU)
 In your command line, input
