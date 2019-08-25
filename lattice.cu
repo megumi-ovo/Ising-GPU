@@ -46,11 +46,12 @@ __global__ void _S(const int *a, int *obs)
 {
     const int N = blockDim.x;
     int i = blockIdx.x;
-    int i_ = _res(i+1,N);
+    int i_ = _res(i+1,N)*N;
+    i *= N;
     int j = threadIdx.x;
     int j_ = _res(j+1,N);
-    int spin_1 = a[i*N+j];
-    int spin_2 = a[i_*N+j]+a[i*N+j_];
+    int spin_1 = a[i+j];
+    int spin_2 = a[i_+j]+a[i+j_];
     atomicAdd(obs+0, spin_1); // magnetization
     atomicAdd(obs+1, spin_1*spin_2); // energy
 }
@@ -68,9 +69,9 @@ std::ostream & operator<<(std::ostream &os, const lattice &sigma)
     int i,j, a[N*N];
     // memory copy from device to host
     cudaMemcpy(a, sigma.a, N*N*sizeof(int), cudaMemcpyDeviceToHost);
-    for(i=0;i<N;i++){
+    for(i=0;i<N*N;i+=N){
         for(j=0;j<N;j++){
-            os << a[i*N+j] << " ";
+            os << a[i+j] << " ";
         }
         os << endl;
     }
