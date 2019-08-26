@@ -9,7 +9,7 @@ int main()
     const int ITER = 10000;
     // test_temperature(N, ITER);
     // show_lattice(N, 0.4407, ITER);
-    // ---- the codes below is for test_observable at a given temperature ---- //
+    // ---- the codes below are for test_observable at a given temperature ---- //
     lattice sigma(N);
     sigma.initialize('1');
     ofstream fout;
