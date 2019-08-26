@@ -12,8 +12,12 @@ __forceinline__ __device__ int _res(const int i, const int N)
 // lattice of spins: 2D Ising model
 struct lattice
 {
+    // ---- lattice ---- //
     const int N; // size of lattice
     int *a; // N*N spin
+    // ---- observables ---- //
+    int *obs; // magnetization, energy
+    // ---- random number generator ---- //
     double *real_dist; // (0,1) real number uniform distribution
     curandGenerator_t gen; // random number generator
     lattice(const int N);
