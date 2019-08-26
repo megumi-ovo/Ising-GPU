@@ -5,17 +5,17 @@ using namespace std;
 
 int main()
 {
-    const int N = 1024;
-    const int ITER = 40000;
+    const int N = 128;
+    const int ITER = 10000;
     // test_temperature(N, ITER);
-    show_lattice(N, 0.4407, ITER);
+    // show_lattice(N, 0.4407, ITER);
     // ---- the codes below is for test_observable at a given temperature ---- //
-    /*lattice sigma(N);
-    sigma.initialize('r');
+    lattice sigma(N);
+    sigma.initialize('1');
     ofstream fout;
     fout.open("data.txt");
-    test_observable(sigma, 0.50, ITER, fout);
-    fout.close();*/
+    test_observable(sigma, 0.4407, ITER, fout);
+    fout.close();
 }
 
 // nvc main.cu test.cu lattice.cu Metropolis.cu
