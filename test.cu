@@ -43,19 +43,16 @@ void test_observable(const lattice &sigma, const double beta, const int ITER, of
     // ---- calculate observables ---- //
     double mag = 0, mag2 = 0;
     double ene = 0, ene2 = 0; 
-    int *obs, o[2]; // observables at each iteration
-    cudaMalloc(&obs, 2*sizeof(int));
+    int obs[2]; // observables at each iteration
     for(int iter=0;iter<ITER;iter++){
         Metropolis_sweep(sigma, beta);
         S(sigma, obs); // calculate mag & ene
-        cudaMemcpy(&o, obs, 2*sizeof(int), cudaMemcpyDeviceToHost);
-        mag  += o[0];
-        mag2 += o[0]*o[0];
-        ene  += o[1];
-        ene2 += o[1]*o[1];
+        mag  += obs[0];
+        mag2 += obs[0]*obs[0];
+        ene  += obs[1];
+        ene2 += obs[1]*obs[1];
     }
     t2 = high_resolution_clock::now();
-    cudaFree(obs);
     // ---- calculate averages ---- //
     mag  /= ITER;
     mag2 /= ITER;
