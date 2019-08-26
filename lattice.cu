@@ -5,6 +5,7 @@ using namespace std;
 lattice::lattice(const int N_): N(N_)
 {
     cudaMalloc(&a, N*N*sizeof(int));
+    cudaMalloc(&obs, 2*sizeof(int));
     cudaMalloc(&real_dist, N*N*sizeof(double));
     curandCreateGenerator(&gen, CURAND_RNG_PSEUDO_MT19937); // initialize rng
     curandSetPseudoRandomGeneratorSeed(gen, 0); // set seed
@@ -13,6 +14,7 @@ lattice::lattice(const int N_): N(N_)
 lattice::~lattice()
 {
     cudaFree(a);
+    cudaFree(obs);
     cudaFree(real_dist);
 }
 
@@ -44,23 +46,27 @@ void lattice::initialize(char option)
 
 __global__ void _S(const int *a, int *obs)
 {
+    // ---- indexes ---- //
     const int N = blockDim.x;
     int i = blockIdx.x;
     int i_ = _res(i+1,N)*N;
     i *= N;
     int j = threadIdx.x;
     int j_ = _res(j+1,N);
+    // ---- spins to use ---- //
     int spin_1 = a[i+j];
     int spin_2 = a[i_+j]+a[i+j_];
-    atomicAdd(obs+0, spin_1); // magnetization
-    atomicAdd(obs+1, spin_1*spin_2); // energy
+    // ---- calculate observables ---- //
+    atomicAdd(obs+0, spin_1);
+    atomicAdd(obs+1, spin_1*spin_2);
 }
 
 void S(const lattice &sigma, int *obs)
 {
     const int N = sigma.N;
-    cudaMemset(obs, 0, 2*sizeof(int));
-    _S<<<N,N>>>(sigma.a, obs);
+    cudaMemset(sigma.obs, 0, 2*sizeof(int));
+    _S<<<N,N>>>(sigma.a, sigma.obs);
+    cudaMemcpy(obs, sigma.obs, 2*sizeof(int), cudaMemcpyDeviceToHost);
 }
 
 std::ostream & operator<<(std::ostream &os, const lattice &sigma)
