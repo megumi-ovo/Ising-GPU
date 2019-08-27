@@ -41,32 +41,32 @@ void test_observable(const lattice &sigma, const double beta, const int ITER, of
         Metropolis_sweep(sigma, beta);
     }
     // ---- calculate observables ---- //
-    double mag = 0, mag2 = 0;
-    double ene = 0, ene2 = 0; 
+    long long mag = 0, mag2 = 0;
+    long long ene = 0, ene2 = 0; 
     int obs[2]; // observables at each iteration
     for(int iter=0;iter<ITER;iter++){
         Metropolis_sweep(sigma, beta);
         S(sigma, obs); // calculate mag & ene
         mag  += obs[0];
-        mag2 += obs[0]*obs[0];
+        mag2 += (long long)(obs[0])*obs[0];
         ene  += obs[1];
-        ene2 += obs[1]*obs[1];
+        ene2 += (long long)(obs[1])*obs[1];
     }
     t2 = high_resolution_clock::now();
     // ---- calculate averages ---- //
-    mag  /= ITER;
-    mag2 /= ITER;
-    ene  /= ITER;
-    ene2 /= ITER;
+    double Mag  = 1.0*mag/ITER;
+    double Mag2 = 1.0*mag2/ITER;
+    double Ene  = 1.0*ene/ITER;
+    double Ene2 = 1.0*ene2/ITER;
     // ---- output results ---- //
     // 1. Magnetization per spin
-    double M = mag/(N*N);
+    double M = Mag/(N*N);
     // 2. Susceptibility
-    double X = beta*(mag2-mag*mag)/(N*N);
+    double X = beta*(Mag2-Mag*Mag)/(N*N);
     // 3. Energy per spin
-    double E = -ene/(N*N);
+    double E = -Ene/(N*N);
     // 4. Specific heat
-    double C = beta*beta*(ene2-ene*ene)/(N*N);
+    double C = beta*beta*(Ene2-Ene*Ene)/(N*N);
     cout << "M: " << M << endl;
     cout << "X: " << X << endl;
     cout << "E: " << E << endl;
